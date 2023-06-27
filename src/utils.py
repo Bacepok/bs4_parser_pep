@@ -1,12 +1,10 @@
-# utils.py
 import logging
 
 from requests import RequestException
-# Новый импорт.
+
 from exceptions import ParserFindTagException
 
 
-# Перехват ошибки RequestException.
 def get_response(session, url):
     try:
         response = session.get(url)

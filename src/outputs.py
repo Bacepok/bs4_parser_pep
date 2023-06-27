@@ -1,13 +1,12 @@
-import datetime as dt
 import csv
+import datetime as dt
 import logging
 
-
 from prettytable import PrettyTable
+
 from constants import BASE_DIR, DATETIME_FORMAT
 
 
-# Контроль вывода результатов парсинга.
 def control_output(results, cli_args):
     output = cli_args.output
     if output == 'pretty':
