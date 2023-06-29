@@ -81,8 +81,7 @@ def download(session):
     pdf_a4_tag = find_tag(
         table_tag,
         'a',
-        {'href': re.compile(r'.+pdf-a4\.zip$')}
-        )
+        {'href': re.compile(r'.+pdf-a4\.zip$')})
     pdf_a4_link = pdf_a4_tag['href']
     archive_url = urljoin(downloads_url, pdf_a4_link)
     filename = archive_url.split('/')[-1]
@@ -121,10 +120,6 @@ def pep(session):
             if dt_tag.text == 'Status:':
                 total_peps += 1
                 status = dt_tag.find_next_sibling().string
-                if status in status_sum:
-                    status_sum[status] += 1
-                if status not in status_sum:
-                    status_sum[status] = 1
                 if status not in EXPECTED_STATUS[preview_status]:
                     error_msg = (
                         'Несовпадающие статусы:\n'
@@ -133,8 +128,9 @@ def pep(session):
                         f'Ожидаемые статусы: {EXPECTED_STATUS[preview_status]}'
                     )
                     logging.warning(error_msg)
-    for status in status_sum:
-        results.append((status, status_sum[status]))
+                    continue
+                status_sum[status] = status_sum.get(status, 0) + 1
+    results.extend(status_sum.items())
     results.append(('Total', total_peps))
     return results
 
